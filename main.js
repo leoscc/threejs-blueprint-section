@@ -31,7 +31,7 @@ container.appendChild(renderer.domElement)
 
 // --- CAMERA
 const camera = new THREE.PerspectiveCamera(40, size.width / size.height, 0.1, 100)
-camera.position.set(0, 1, 2)
+camera.position.set(0, 1, 5)
 const cameraTarget = new THREE.Vector3(0, 1, 0)
 
 scene.add(camera)
@@ -86,6 +86,14 @@ toLoad.forEach(item => {
   console.log(item.name)
 
   gltfLoader.load(item.file, (model) => {
+    // enable shadows
+    model.scene.traverse(child => {
+      if (child instanceof THREE.Mesh) {
+        child.receiveShadow = true
+        child.castShadow = true
+      }
+    })
+
     scene.add(model.scene)
   })
 })
