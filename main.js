@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 import { COLORS } from './utils/constants'
 
@@ -71,6 +72,23 @@ const onResize = () => {
 
 window.addEventListener('resize', onResize)
 onResize()
+
+// --- GLTF LOADER
+const toLoad = [
+  { name: 'Bear', file: './assets/bear-model.gltf' },
+  { name: 'Dog', file: './assets/dog-model.gltf' }
+]
+
+const LoadingManager = new THREE.LoadingManager(() => {})
+const gltfLoader = new GLTFLoader(LoadingManager)
+
+toLoad.forEach(item => {
+  console.log(item.name)
+
+  gltfLoader.load(item.file, (model) => {
+    scene.add(model.scene)
+  })
+})
 
 // --- TICK
 const tick = () => {
