@@ -84,6 +84,26 @@ const models = {}
 const setupAnimation = () => {
   models.bear.position.x = 5
   models.dog.position.x = -5
+
+  ScrollTrigger.matchMedia({ '(prefers-reduced-motion: no-preference)': desktopAnimation })
+}
+
+const desktopAnimation = () => {
+  const section = 0
+  const tl = gsap.timeline({
+    defaults: {
+      duration: 1,
+      ease: 'power2.inOut'
+    },
+    scrollTrigger: {
+      trigger: '.page',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.1
+    }
+  })
+
+  tl.to(models.bear.position, { x: 1 }, section)
 }
 
 const LoadingManager = new THREE.LoadingManager(() => {
@@ -92,8 +112,6 @@ const LoadingManager = new THREE.LoadingManager(() => {
 const gltfLoader = new GLTFLoader(LoadingManager)
 
 toLoad.forEach(item => {
-  console.log(item.name)
-
   gltfLoader.load(item.file, (model) => {
     // enable shadows
     model.scene.traverse(child => {
