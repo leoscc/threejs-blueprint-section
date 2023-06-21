@@ -23,3 +23,9 @@ html, body {
 	position: relative;
 	z-index: 2;
 }
+
+.section {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+}
