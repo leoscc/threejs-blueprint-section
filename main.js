@@ -75,11 +75,20 @@ onResize()
 
 // --- GLTF LOADER
 const toLoad = [
-  { name: 'Bear', file: './assets/bear-model.gltf' },
-  { name: 'Dog', file: './assets/dog-model.gltf' }
+  { name: 'bear', group: new THREE.Group(), file: './assets/bear-model.gltf' },
+  { name: 'dog', group: new THREE.Group(), file: './assets/dog-model.gltf' }
 ]
 
-const LoadingManager = new THREE.LoadingManager(() => {})
+const models = {}
+
+const setupAnimation = () => {
+  models.bear.position.x = 5
+  models.dog.position.x = -5
+}
+
+const LoadingManager = new THREE.LoadingManager(() => {
+  setupAnimation()
+})
 const gltfLoader = new GLTFLoader(LoadingManager)
 
 toLoad.forEach(item => {
@@ -94,7 +103,9 @@ toLoad.forEach(item => {
       }
     })
 
-    scene.add(model.scene)
+    item.group.add(model.scene)
+    scene.add(item.group)
+    models[item.name] = item.group
   })
 })
 
